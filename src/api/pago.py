@@ -47,7 +47,7 @@ class PagoRead(BaseModel):
     id_usuario_edita: Optional[UUID] = None
 
 
-@router.get("", response_model=List[PagoRead])
+@router.get("/", response_model=List[PagoRead])
 def listar_pagos(db: DbSession, skip: int = 0, limit: int = 100) -> List[PagoRead]:
     return crud_pago.listar(db, skip=skip, limit=limit)
 
@@ -60,7 +60,7 @@ def obtener_pago(db: DbSession, id_pago: UUID) -> PagoRead:
     return p
 
 
-@router.post("", response_model=PagoRead, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=PagoRead, status_code=status.HTTP_201_CREATED)
 def crear_pago(db: DbSession, body: PagoCreate) -> PagoRead:
     p = crud_pago.crear(
         db,

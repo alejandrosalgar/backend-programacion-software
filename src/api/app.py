@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.database.config import create_tables
 
@@ -16,11 +17,23 @@ async def lifespan(_app: FastAPI):
     import src.entities.pedido  # noqa: F401
     import src.entities.producto  # noqa: F401
     import src.entities.usuario  # noqa: F401
+
     create_tables()
     yield
 
 
 app = FastAPI(title="API", version="1.0.0", lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:4200",
+        "http://127.0.0.1:4200",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(usuario.router)
 app.include_router(categoria.router)

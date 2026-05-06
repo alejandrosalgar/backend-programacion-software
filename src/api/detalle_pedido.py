@@ -37,7 +37,7 @@ class DetallePedidoRead(BaseModel):
     estado: Optional[str] = None
 
 
-@router.get("", response_model=List[DetallePedidoRead])
+@router.get("/", response_model=List[DetallePedidoRead])
 def listar_detalles(db: DbSession, skip: int = 0, limit: int = 100) -> List[DetallePedidoRead]:
     return crud_detalle_pedido.listar(db, skip=skip, limit=limit)
 
@@ -50,7 +50,7 @@ def obtener_detalle(db: DbSession, id_detalle_pedido: UUID) -> DetallePedidoRead
     return d
 
 
-@router.post("", response_model=DetallePedidoRead, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=DetallePedidoRead, status_code=status.HTTP_201_CREATED)
 def crear_detalle(db: DbSession, body: DetallePedidoCreate) -> DetallePedidoRead:
     d = crud_detalle_pedido.crear(
         db,

@@ -38,7 +38,7 @@ class ProductoRead(BaseModel):
     id_usuario_edita: Optional[UUID] = None
 
 
-@router.get("", response_model=List[ProductoRead])
+@router.get("/", response_model=List[ProductoRead])
 def listar_productos(db: DbSession, skip: int = 0, limit: int = 100) -> List[ProductoRead]:
     return crud_producto.listar(db, skip=skip, limit=limit)
 
@@ -51,7 +51,7 @@ def obtener_producto(db: DbSession, id_producto: UUID) -> ProductoRead:
     return p
 
 
-@router.post("", response_model=ProductoRead, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=ProductoRead, status_code=status.HTTP_201_CREATED)
 def crear_producto(db: DbSession, body: ProductoCreate) -> ProductoRead:
     p = crud_producto.crear(
         db,

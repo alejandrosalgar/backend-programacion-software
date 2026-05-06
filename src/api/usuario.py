@@ -42,7 +42,7 @@ class UsuarioRead(BaseModel):
     activo: bool
 
 
-@router.get("", response_model=List[UsuarioRead])
+@router.get("/", response_model=List[UsuarioRead])
 def listar_usuarios(db: DbSession, skip: int = 0, limit: int = 100) -> List[UsuarioRead]:
     return crud_usuario.listar(db, skip=skip, limit=limit)
 
@@ -55,7 +55,7 @@ def obtener_usuario(db: DbSession, id_usuario: UUID) -> UsuarioRead:
     return u
 
 
-@router.post("", response_model=UsuarioRead, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=UsuarioRead, status_code=status.HTTP_201_CREATED)
 def crear_usuario(db: DbSession, body: UsuarioCreate) -> UsuarioRead:
     u = crud_usuario.crear(
         db,

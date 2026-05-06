@@ -38,7 +38,7 @@ class CategoriaRead(BaseModel):
     id_usuario_edita: Optional[UUID] = None
 
 
-@router.get("", response_model=List[CategoriaRead])
+@router.get("/", response_model=List[CategoriaRead])
 def listar_categorias(db: DbSession, skip: int = 0, limit: int = 100) -> List[CategoriaRead]:
     return crud_categoria.listar(db, skip=skip, limit=limit)
 
@@ -51,7 +51,7 @@ def obtener_categoria(db: DbSession, id_categoria: UUID) -> CategoriaRead:
     return c
 
 
-@router.post("", response_model=CategoriaRead, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=CategoriaRead, status_code=status.HTTP_201_CREATED)
 def crear_categoria(db: DbSession, body: CategoriaCreate) -> CategoriaRead:
     c = crud_categoria.crear(
         db,

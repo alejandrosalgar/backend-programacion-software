@@ -41,7 +41,7 @@ class PedidoRead(BaseModel):
     id_usuario_edita: Optional[UUID] = None
 
 
-@router.get("", response_model=List[PedidoRead])
+@router.get("/", response_model=List[PedidoRead])
 def listar_pedidos(db: DbSession, skip: int = 0, limit: int = 100) -> List[PedidoRead]:
     return crud_pedido.listar(db, skip=skip, limit=limit)
 
@@ -54,7 +54,7 @@ def obtener_pedido(db: DbSession, id_pedido: UUID) -> PedidoRead:
     return p
 
 
-@router.post("", response_model=PedidoRead, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=PedidoRead, status_code=status.HTTP_201_CREATED)
 def crear_pedido(db: DbSession, body: PedidoCreate) -> PedidoRead:
     p = crud_pedido.crear(
         db,

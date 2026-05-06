@@ -12,17 +12,25 @@ from sqlalchemy.orm import sessionmaker
 
 load_dotenv()
 
+_TESTING = os.getenv("TESTING") == "1"
 DATABASE_URL = os.getenv("DATABASE_URL")
-
-if not DATABASE_URL:
+if not DATABASE_URL and _TESTING:
+    DATABASE_URL = "sqlite+pysqlite:///:memory:"
+elif not DATABASE_URL:
     raise ValueError("Se requiere DATABASE_URL en el archivo .env")
+
+_connect_args: dict = {}
+if DATABASE_URL.startswith("sqlite"):
+    _connect_args = {"check_same_thread": False}
+elif "neon.tech" in DATABASE_URL:
+    _connect_args = {"sslmode": "require"}
 
 engine = create_engine(
     DATABASE_URL,
     echo=False,
     pool_pre_ping=True,
     pool_recycle=300,
-    connect_args={"sslmode": "require"} if "neon.tech" in (DATABASE_URL or "") else {},
+    connect_args=_connect_args,
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
